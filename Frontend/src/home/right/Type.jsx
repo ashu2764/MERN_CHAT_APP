@@ -4,8 +4,8 @@ import { IoMdSend } from "react-icons/io";
 function Type() {
   return (
     <>
-      <div className="flex space-x-2 h-[10vh] text-center bg-gray-800">
-        <div className="w-[70%] mx-4">
+      <div className="flex space-x-3 h-[10vh] text-center bg-gray-800">
+        <div className="w-[80%] mx-4">
           <input
             type="text"
             placeholder="Type here"
