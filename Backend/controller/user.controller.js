@@ -33,12 +33,48 @@ export const signup = async (req, res) => {
             createTokenAndSaveCookie(newUser._id, res);
             res.status(201).json({ message: "User registered sucessfully", newUser })
         }
-
-
-
-
-
     } catch (error) {
         console.log(error)
+    }
+}
+
+
+export const login = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+
+
+        const user = await User.findOne({ email })
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!user || !isMatch) {
+            res.status(404).json({ message: "Invalid User or Password" })
+        }
+        createTokenAndSaveCookie(user._id, res);
+        res.status(201).json({
+            message: "User logged in Successfully",
+            user: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+            },
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Server error" })
+
+    }
+}
+
+
+export const  logout = async(req, res) =>{
+    try {
+        res.clearCookie('jwt');
+        res.status(201).json({message:"User Logged out Successfully"})
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({message:"Server Error"})
+        
     }
 }
